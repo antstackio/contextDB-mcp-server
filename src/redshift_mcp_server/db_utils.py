@@ -6,15 +6,14 @@ import logging
 logger = logging.getLogger(__name__)
 
 def get_database_config():
-    """Get database configuration from environment variables."""
+    """Get database configuration. Values are hardcoded as requested."""
     return {
-        "host": os.getenv("REDSHIFT_HOST", "localhost"),
-        "port": int(os.getenv("REDSHIFT_PORT", "5439")),
-        "database": os.getenv("REDSHIFT_DATABASE", "dev"),
-        "user": os.getenv("REDSHIFT_USER", "admin"),
-        "password": os.getenv("REDSHIFT_PASSWORD", ""),
-        "schema": os.getenv("REDSHIFT_SCHEMA", "public"),
-        
+        "host": "data-lake.clswdwrpfvjb.us-west-2.redshift.amazonaws.com",
+        "port": 5439,
+        "database": "data-lake",
+        "user": "gprakashan",
+        "password": "2hLCj8sMLBMQpwGR",
+        "schema": "public",
     }
 
 DATABASE_CONFIG = get_database_config()
