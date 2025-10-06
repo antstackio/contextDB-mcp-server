@@ -12,6 +12,10 @@ Redshift MCP Server is a Python-based implementation of the [Model Context Proto
 - Execute SQL queries
 - Analyze tables to collect statistics information
 - Get execution plans for SQL queries
+- Discover schema metadata
+- Analyze query performance
+- Find table dependencies
+- Validate report queries
 
 ## Installation
 
@@ -52,33 +56,13 @@ You can set these environment variables directly or use a `.env` file.
 ### Starting the server
 
 ```bash
-# Start the server
-uv run --with mcp python-dotenv redshift-connector mcp
+
 mcp run src/redshift_mcp_server/server.py
 ```
 
 ### Integrating with AI assistants
 
-To use this server with an AI assistant that supports MCP, add the following configuration to your MCP settings:
-
-```json
-{
-  "mcpServers": {
-    "redshift": {
-      "command": "uv",
-      "args": ["--directory", "src/redshift_mcp_server", "run", "server.py"],
-      "env": {
-        "RS_HOST": "your-redshift-cluster.region.redshift.amazonaws.com",
-        "RS_PORT": "5439",
-        "RS_USER": "your_username",
-        "RS_PASSWORD": "your_password",
-        "RS_DATABASE": "your_database",
-        "RS_SCHEMA": "your_schema"
-      }
-    }
-  }
-}
-```
+To use this server with an AI assistant that supports MCP, you can configure your MCP settings to point to this server.
 
 ## Features
 
@@ -98,44 +82,10 @@ The server provides the following tools:
 - `execute_sql` - Executes a SQL query on the Redshift cluster
 - `analyze_table` - Analyzes a table to collect statistics information
 - `get_execution_plan` - Gets the execution plan with runtime statistics for a SQL query
-
-## Examples
-
-### Listing schemas
-
-```
-access_mcp_resource("redshift-mcp-server", "rs:///schemas")
-```
-
-### Listing tables in a schema
-
-```
-access_mcp_resource("redshift-mcp-server", "rs:///public/tables")
-```
-
-### Getting table DDL
-
-```
-access_mcp_resource("redshift-mcp-server", "rs:///public/users/ddl")
-```
-
-### Executing SQL
-
-```
-use_mcp_tool("redshift-mcp-server", "execute_sql", {"sql": "SELECT * FROM public.users LIMIT 10"})
-```
-
-### Analyzing a table
-
-```
-use_mcp_tool("redshift-mcp-server", "analyze_table", {"schema": "public", "table": "users"})
-```
-
-### Getting execution plan
-
-```
-use_mcp_tool("redshift-mcp-server", "get_execution_plan", {"sql": "SELECT * FROM public.users WHERE user_id = 123"})
-```
+- `discover_schema_metadata` - Extracts comprehensive schema metadata
+- `analyze_query_performance` - Analyzes query execution plan and performance
+- `find_table_dependencies` - Maps table relationships and dependencies
+- `validate_report_queries` - Batch validates queries from reports
 
 ## Development
 
@@ -146,7 +96,15 @@ redshift-mcp-server/
 ├── src/
 │   └── redshift_mcp_server/
 │       ├── __init__.py
-│       └── server.py
+│       ├── server.py
+│       ├── database.py
+│       ├── settings.py
+│       ├── tools/
+│       │   ├── __init__.py
+│       │   └── ...
+│       └── resources/
+│           ├── __init__.py
+│           └── ...
 ├── pyproject.toml
 └── README.md
 ```
