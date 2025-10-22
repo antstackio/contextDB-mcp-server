@@ -15,7 +15,7 @@
 
 ```bash
 # 1. Clone the repository
-git clone https://github.com/yourusername/contextDB.git
+git clone https://github.com/antstackio/contextDB-mcp-server.git
 cd contextDB
 
 # 2. Install with uv tool
