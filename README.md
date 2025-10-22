@@ -1,6 +1,5 @@
 # contextDB MCP Server
 
-A comprehensive Multi-Database Model Context Protocol (MCP) server with metadata discovery and analysis features for Redshift, PostgreSQL, Aurora, and MySQL.
 
 ## Features
 
