@@ -1,16 +1,22 @@
-from ..db_utils import get_db_connection
-
-async def analyze_query_performance(limit: int = 10) -> str:
+async def analyze_query_performance(adapter, limit: int = 10) -> str:
     """
-    Analyze recent query performance using optimized Redshift system tables.
-    Uses STL_QUERY with additional metrics for comprehensive performance analysis.
+    Analyze recent query performance using database-specific system tables.
+
+    Currently only supports Redshift (uses STL_QUERY with additional metrics).
 
     Args:
+        adapter: Database adapter instance (must be Redshift)
         limit: Number of queries to analyze (default 10)
 
     Returns:
         Query performance analysis with execution times, resource usage, and optimization hints
+
+    Raises:
+        ValueError: If adapter is not Redshift type
     """
+    # Check if adapter is Redshift
+    if adapter.db_type != 'redshift':
+        return f"❌ This tool only supports Redshift. Current database type: {adapter.db_type}"
     # Optimized query using STL_QUERY with additional performance metrics
     performance_sql = f"""
         SELECT
@@ -44,7 +50,7 @@ async def analyze_query_performance(limit: int = 10) -> str:
         LIMIT {limit}
     """
 
-    async with get_db_connection() as conn:
+    async with adapter.get_connection() as conn:
         try:
             rows = await conn.fetch(performance_sql)
             if not rows:

@@ -1,0 +1,61 @@
+{
+  "datasources": [
+    {
+      "id": "analytics_warehouse",
+      "type": "redshift",
+      "name": "Analytics Data Warehouse",
+      "description": "Primary analytics database",
+
+      "connection": {
+        "host": "your-cluster.abc123.us-west-2.redshift.amazonaws.com",
+        "port": 5439,
+        "database": "analytics",
+        "user": "admin",
+        "password": "your_redshift_password_here",
+        "schema": "public"
+      },
+
+      "enabled": true,
+      "metadata": {
+      }
+    },
+    {
+      "id": "customer_db",
+      "type": "postgres",
+      "name": "Customer Database",
+      "description": "Operational customer data and transactions",
+
+      "connection": {
+        "host": "postgres.abc123.us-west-2.rds.amazonaws.com",
+        "port": 5432,
+        "database": "customers",
+        "user": "app_user",
+        "password": "your_postgres_password_here",
+        "schema": "public"
+      },
+
+      "enabled": true,
+      "metadata": {
+      }
+    },
+    {
+      "id": "billing_db",
+      "type": "aurora",
+      "name": "billing_aurora Database",
+      "description": "Billing and invoice data on Aurora PostgreSQL",
+
+      "connection": {
+        "host": "aurora-cluster.cluster-abc123.us-west-2.rds.amazonaws.com",
+        "port": 5432,
+        "database": "billing",
+        "user": "billing_user",
+        "password": "your_aurora_password_here",
+        "schema": "public"
+      },
+
+      "enabled": true,
+      "metadata": {
+      }
+    }
+  ]
+}
