@@ -16,7 +16,7 @@
 ```bash
 # 1. Clone the repository
 git clone https://github.com/antstackio/contextDB-mcp-server.git
-cd contextDB
+cd src/contextDB
 
 # 2. Install with uv tool
 uv tool install .
