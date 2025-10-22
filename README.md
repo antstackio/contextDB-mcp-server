@@ -50,7 +50,7 @@ Create `.settings.json` in your project root:
 ```json
 {
   "mcpServers": {
-    "redshift": {
+    "contextDB-mcp": {
       "command": "contextDB",
       "env": {
         "DATASOURCES_CONFIG": "/path/to/your/datasources.json"
@@ -66,7 +66,7 @@ Create `.gemini/settings.json` in your project root:
 ```json
 {
   "mcpServers": {
-    "redshift": {
+    "contextDB-mcp": {
       "command": "contextDB",
       "env": {
         "DATASOURCES_CONFIG": "/path/to/your/datasources.json"
@@ -82,7 +82,7 @@ Open Command Palette and select "Add new global MCP server". This opens the MCP 
 ```json
 {
   "mcpServers": {
-    "redshift": {
+    "contextDB-mcp": {
       "command": "contextDB",
       "env": {
         "DATASOURCES_CONFIG": "/path/to/your/datasources.json"
