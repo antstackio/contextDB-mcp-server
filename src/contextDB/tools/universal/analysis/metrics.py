@@ -1,19 +1,18 @@
-from ..db_utils import get_db_connection
-
-async def get_business_metrics(schema: str = 'public', days: int = 30) -> str:
+async def get_business_metrics(adapter, schema_name: str = 'public', days: int = 30) -> str:
     """
     Generate business-focused metrics using Redshift system tables for accurate insights.
     Uses STL tables for query activity and SVV tables for current state analysis.
 
     Args:
-        schema: The schema to analyze (default 'public')
+        adapter: Redshift adapter instance
+        schema_name: The schema to analyze (default 'public')
         days: Number of days to look back for trends (default 30)
 
     Returns:
         Comprehensive business metrics with data activity patterns and growth insights
     """
 
-    async with get_db_connection() as conn:
+    async with adapter.get_connection() as conn:
         try:
             # Get basic schema statistics using information_schema
             schema_stats_sql = f"""
@@ -27,7 +26,7 @@ async def get_business_metrics(schema: str = 'public', days: int = 30) -> str:
                     0 as skewed_tables,
                     0 as largest_table_size_mb
                 FROM information_schema.tables
-                WHERE table_schema = '{schema}'
+                WHERE table_schema = '{schema_name}'
                 AND table_type = 'BASE TABLE'
             """
 
@@ -67,7 +66,7 @@ async def get_business_metrics(schema: str = 'public', days: int = 30) -> str:
                 JOIN pg_namespace pn ON pc.relnamespace = pn.oid
                 JOIN pg_tables pt ON pn.nspname = pt.schemaname AND pc.relname = pt.tablename
                 WHERE s.starttime >= DATEADD(day, -{days}, GETDATE())
-                AND pt.schemaname = '{schema}'
+                AND pt.schemaname = '{schema_name}'
                 GROUP BY s.tbl, pt.schemaname, pt.tablename
                 ORDER BY scan_count DESC
                 LIMIT 10
@@ -78,9 +77,10 @@ async def get_business_metrics(schema: str = 'public', days: int = 30) -> str:
             # Build comprehensive report
             result_lines = [
                 f"=== Business Metrics Dashboard ===",
-                f"Schema: {schema} | Analysis Period: Last {days} days",
+                f"Schema: {schema_name} | Analysis Period: Last {days} days",
                 f"Generated: {conn.get_server_version() if hasattr(conn, 'get_server_version') else 'N/A'}",
                 "",
+
                 "=== Schema Overview ===",
                 f"Total Tables: {schema_stats['total_tables']}",
                 f"Total Data Size: {schema_stats['total_size_mb']:.2f} MB",
@@ -156,11 +156,11 @@ async def get_business_metrics(schema: str = 'public', days: int = 30) -> str:
                     SELECT
                         COUNT(*) as table_count
                     FROM information_schema.tables
-                    WHERE table_schema = '{schema}'
+                    WHERE table_schema = '{schema_name}'
                 """
 
                 basic_stats = await conn.fetchrow(fallback_sql)
-                return f"Basic Schema Info - {schema}: {basic_stats['table_count']} tables | Error getting detailed metrics: {str(e)}"
+                return f"Basic Schema Info - {schema_name}: {basic_stats['table_count']} tables | Error getting detailed metrics: {str(e)}"
 
             except Exception as fallback_error:
                 return f"Error generating business metrics: {str(e)} | Fallback error: {str(fallback_error)}"
