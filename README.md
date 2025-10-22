@@ -98,14 +98,15 @@ Open Command Palette and select "Add new global MCP server". This opens the MCP 
 
 ### Discovery Tools
 
-1. **List all datasources**
-```
-list_all_datasources_tool()
-```
-
-2. **Get datasource overview**
+1 . **Get datasource overview** - Start with this to get started
 ```
 get_datasource_overview_tool(datasource_id="analytics_warehouse")
+```
+
+
+2. **List all datasources**
+```
+list_all_datasources_tool()
 ```
 
 3. **Search across all datasources**
