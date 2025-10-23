@@ -1,5 +1,12 @@
 # contextDB MCP Server
 
+A Model Context Protocol (MCP) server that enables AI assistants to intelligently explore and query multiple databases simultaneously.
+
+## Demo
+
+![Get Datasource Overview](https://github.com/antstackio/contextDB-mcp-server/blob/main/assets/datasource-overview-demo.png?raw=true)
+
+*Example: AI agent using `get_datasource_overview_tool` to discover database structure - showing 46 schemas, 509 tables across 9,151 columns with intelligent navigation suggestions*
 
 ## Features
 
